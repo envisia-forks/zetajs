@@ -42,7 +42,15 @@ function demo() {
   const xParaEnumeration = xText.createEnumeration();
   for (const xParagraph of xParaEnumeration) {
     const color = Math.floor(Math.random() * 0xFFFFFF);
-    xParagraph.setPropertyValue("CharColor", color);
+    try {
+      xParagraph.setPropertyValue("CharColor", color);
+    } catch (e) {
+      if (zetajs.getAnyType(zetajs.catchUnoException(e)) !=
+          'com.sun.star.lang.IllegalArgumentException')
+      {
+        throw e;
+      }
+    }
   }
 }
 
